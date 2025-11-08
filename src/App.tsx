@@ -2,6 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { supabase } from './lib/supabaseClient'
 import type { Transaction, Category } from './types'
 import { HistoryListComponent } from './components/history/HistoryListComponent'
+import { BrowserRouter, Route, Routes, useRoutes } from 'react-router-dom'
+import { routes } from "./routes"
+import Categories from './pages/categories/Categories'
+
+function AppRouter() {
+  const element = useRoutes(routes)
+  return element
+}
 
 const App: React.FC = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([])
@@ -85,48 +93,53 @@ const App: React.FC = () => {
   const filteredCategories = categories.filter((c) => c.type === type)
 
   return (
-    <div style={{ padding: '2rem' }}>
-      <h1>家計簿（カテゴリ付き）</h1>
+    <>
+      <BrowserRouter>
+        <AppRouter />
+      </BrowserRouter>
+    </>
+    // <div style={{ padding: '2rem' }}>
+    //   <h1>家計簿（カテゴリ付き）</h1>
 
-      {/* 収入/支出切替 */}
-      <div style={{ marginBottom: '1rem' }}>
-        <label>
-          <input type="radio" value="expense" checked={type === 'expense'} onChange={() => setType('expense')} /> 支出
-        </label>
-        <label style={{ marginLeft: '1rem' }}>
-          <input type="radio" value="income" checked={type === 'income'} onChange={() => setType('income')} /> 収入
-        </label>
-      </div>
+    //   {/* 収入/支出切替 */}
+    //   <div style={{ marginBottom: '1rem' }}>
+    //     <label>
+    //       <input type="radio" value="expense" checked={type === 'expense'} onChange={() => setType('expense')} /> 支出
+    //     </label>
+    //     <label style={{ marginLeft: '1rem' }}>
+    //       <input type="radio" value="income" checked={type === 'income'} onChange={() => setType('income')} /> 収入
+    //     </label>
+    //   </div>
 
-      {/* 金額とカテゴリ選択 */}
-      <div style={{ marginBottom: '1rem' }}>
-        <input
-          type="number"
-          min={0}
-          value={amount}
-          onChange={(e) => setAmount(Number(e.target.value))}
-          placeholder="金額"
-        />
-        <select value={categoryId ?? ''} onChange={(e) => setCategoryId(e.target.value)}>
-          <option value="" disabled>
-            カテゴリ選択
-          </option>
-          {filteredCategories.map((c) => (
-            <option key={c.id} value={c.id}>
-              {c.name}
-            </option>
-          ))}
-        </select>
-        <button onClick={handleAdd}>追加</button>
-      </div>
+    //   {/* 金額とカテゴリ選択 */}
+    //   <div style={{ marginBottom: '1rem' }}>
+    //     <input
+    //       type="number"
+    //       min={0}
+    //       value={amount}
+    //       onChange={(e) => setAmount(Number(e.target.value))}
+    //       placeholder="金額"
+    //     />
+    //     <select value={categoryId ?? ''} onChange={(e) => setCategoryId(e.target.value)}>
+    //       <option value="" disabled>
+    //         カテゴリ選択
+    //       </option>
+    //       {filteredCategories.map((c) => (
+    //         <option key={c.id} value={c.id}>
+    //           {c.name}
+    //         </option>
+    //       ))}
+    //     </select>
+    //     <button onClick={handleAdd}>追加</button>
+    //   </div>
 
-      {/* メモ */}
-      <h2>メモ</h2>
-      <input type="text" name="note" id="note" value={note} onChange={(e) => setNote(e.target.value)} />
+    //   {/* メモ */}
+    //   <h2>メモ</h2>
+    //   <input type="text" name="note" id="note" value={note} onChange={(e) => setNote(e.target.value)} />
 
-      {/* 取引一覧 */}
-      <HistoryListComponent transactions={transactions} deleteData={deleteData} />
-    </div>
+    //   {/* 取引一覧 */}
+    //   <HistoryListComponent transactions={transactions} deleteData={deleteData} />
+    // </div>
   )
 }
 
