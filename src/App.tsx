@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { supabase } from './lib/supabaseClient'
 import type { Transaction, Category } from './types'
-import { HistoryListComponent } from './components/history/HistoryListComponent'
+// import { HistoryListComponent } from './components/history/HistoryListComponent'
 import { BrowserRouter, Route, Routes, useRoutes } from 'react-router-dom'
 import { routes } from "./routes"
-import Categories from './pages/categories/Categories'
+// import Categories from './pages/categories/Categories'
 
 function AppRouter() {
   const element = useRoutes(routes)

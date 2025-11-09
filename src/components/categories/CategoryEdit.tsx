@@ -1,4 +1,4 @@
-import React from 'react'
+// import React from 'react'
 
 /**
  * カテゴリー作成画面

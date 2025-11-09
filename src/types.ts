@@ -35,4 +35,10 @@ export type Category = {
 
   /** カテゴリの種類 "income" または "expense" */
   type: "income" | "expense"
+
+  /**カテゴリーのアイコン */
+  icon: string
+
+  /**アイコンの色 */
+  iconColor: string
 }
