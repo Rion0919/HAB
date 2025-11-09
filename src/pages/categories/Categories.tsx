@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabaseClient'
+import { icons } from '../../composable/iconComposable'
 import type { Category } from '../../types'
 import { Link } from 'react-router-dom'
 /**
  * カテゴリー管理画面
  * このページでカテゴリーの新規追加、および編集を行います。
  */
-
 function Categories() {
+  type IconKey = keyof typeof icons
   const [categories, setCategories] = useState<Category[]>([])
 
   /**
@@ -33,33 +34,39 @@ function Categories() {
       <p>カテゴリー一覧</p>
       <p>収入</p>
       <ul>
-        {categories.map(
-          (category) =>
+        {categories.map((category) => {
+          const IconComponent = category.icon ? icons[category.icon as IconKey] : null
+          return (
             category.type === 'income' && (
               <>
                 <li key={category.id}>
+                  {IconComponent && <IconComponent color={category.iconColor || '#333'} size={20} />}
                   {category.name}
                   <Link to={`/category/${category.id}`}>詳細</Link>
                   <Link to={`/category/edit/${category.id}`}>編集</Link>
                 </li>
               </>
-            ),
-        )}
+            )
+          )
+        })}
       </ul>
       <p>支出</p>
       <ul>
-        {categories.map(
-          (category) =>
+        {categories.map((category) => {
+          const IconComponent = category.icon ? icons[category.icon as IconKey] : null
+          return (
             category.type === 'expense' && (
               <>
                 <li key={category.id}>
+                  {IconComponent && <IconComponent color={category.iconColor || '#333'} size={20} />}
                   {category.name}
                   <Link to={`/category/${category.id}`}>詳細</Link>
                   <Link to={`/category/edit/${category.id}`}>編集</Link>
                 </li>
               </>
-            ),
-        )}
+            )
+          )
+        })}
       </ul>
     </>
   )
