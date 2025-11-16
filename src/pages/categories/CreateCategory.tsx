@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { icons } from '../../composable/iconComposable'
-import { HexColorPicker } from 'react-colorful'
+// import { HexColorPicker } from 'react-colorful'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabaseClient'
+import { IconSelectorLayout } from '../../components/iconPicker/IconSelectorLayout'
+import IconPickerDialog from '../../components/iconPicker/IconPickerDialog'
 
 function CreateCategory() {
   type IconKey = keyof typeof icons
@@ -11,6 +13,7 @@ function CreateCategory() {
   const [type, setType] = useState('-')
   const [color, setColor] = useState('#4f46e5')
   const [icon, setIcon] = useState<IconKey>('tag')
+  const [open, setOpen] = useState(false)
   const IconComponent = icons[icon]
 
   /**
@@ -34,9 +37,7 @@ function CreateCategory() {
       console.error('カテゴリーデータ追加エラー：', error)
       return
     }
-    alert(
-      `以下のカテゴリーを新規追加しました。\n名前: ${name}\n種別: ${type}\nアイコン: ${icon}\n色: ${color}`,
-    )
+    alert(`以下のカテゴリーを新規追加しました。\n名前: ${name}\n種別: ${type}\nアイコン: ${icon}\n色: ${color}`)
     goBack()
   }
 
@@ -62,41 +63,30 @@ function CreateCategory() {
             <option value="expense">支出</option>
           </select>
         </form>
-        {/* アイコン選択 */}
-        <div style={{ marginBottom: '1rem' }}>
-          <label>アイコンを選択：</label>
-          <div style={{ display: 'flex', gap: '1rem', marginTop: '0.5rem' }}>
-            {(Object.keys(icons) as IconKey[]).map((key) => {
-              const Icon = icons[key]
-              return (
-                <div
-                  key={key}
-                  onClick={() => setIcon(key)}
-                  style={{
-                    cursor: 'pointer',
-                    padding: '0.5rem',
-                    borderRadius: '8px',
-                    border: icon === key ? '2px solid #4f46e5' : '1px solid #ccc',
-                  }}
-                >
-                  <Icon size={24} color={color} />
-                </div>
-              )
-            })}
-          </div>
-        </div>
+        {/* IconPickerDialog test */}
+        {/* { open && (<IconPickerDialog
+          icon={icon}
+          color={color}
+          setIcon={setIcon}
+          setColor={setColor}
+          onClose={() => setOpen(false)}
+        />)} */}
 
-        {/* カラー選択 */}
-        <div style={{ marginBottom: '1rem' }}>
-          <label>カラーを選択：</label>
-          <HexColorPicker color={color} onChange={setColor} />
-        </div>
 
         {/* プレビュー */}
         <div style={{ marginBottom: '1rem' }}>
           <p>プレビュー：</p>
-          <IconComponent size={40} color={color} />
+          <IconComponent size={40} color={color} onClick={() => setOpen(true)} />
         </div>
+
+        {/* アイコン・カラー選択 */}
+        {open &&(<IconSelectorLayout
+          color={color}
+          icon={icon}
+          setIcon={setIcon}
+          setColor={setColor}
+          onClose={() => setOpen(false)}
+        />)}
 
         {/* 作成ボタン */}
         <button

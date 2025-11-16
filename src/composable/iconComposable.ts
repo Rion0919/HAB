@@ -7,6 +7,9 @@ import {
   Music,
   BookOpenText,
   ShoppingCart,
+  Apple,
+  Shirt,
+  Gamepad2
 } from "lucide-react";
 
 export const icons = {
@@ -18,4 +21,7 @@ export const icons = {
   music: Music,
   bookOpenText: BookOpenText,
   shoppingCart: ShoppingCart,
+  apple: Apple,
+  shirt: Shirt,
+  game: Gamepad2
 };
